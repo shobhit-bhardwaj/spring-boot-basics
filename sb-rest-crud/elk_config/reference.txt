@@ -1,0 +1,27 @@
+--	ELK Stack	--
+
+1. Elastic Search -->
+Run the file in bin folder	-	./elasticsearch
+http://localhost:9200
+
+
+2. Kibana
+Uncomment in kibana.yaml	-	elasticsearch.hosts
+Run the file in bin folder	-	./kibana
+http://localhost:5601
+
+
+3. Logstash
+bin/logstash --debug -f ./config/logstash.conf
+
+
+URLs from Elastic Search -
+1. All Categories - http://localhost:9200/_cat
+2. All Indexes - http://localhost:9200/_cat/indices (e.g. - logstash-2021.04.15-000001)
+3. Index Information - http://localhost:9200/logstash-2021.04.15-000001/_search
+
+
+Configure on Kibana Dashboard -
+1. Stack Management --> Index patterns --> logstash-2021* --> Create Index Pattern
+   It will list the information from index - http://localhost:9200/logstash-2021.04.15-000001/_search
+2. Go to Discover tab for all the information related to logs.

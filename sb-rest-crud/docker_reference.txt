@@ -1,0 +1,19 @@
+mvn clean install
+mvn package
+
+
+
+docker build --tag=employ-server .
+docker run -d -p8080:8080 --name=EMPLOY employ-server
+
+docker stop EMPLOY
+docker rm -f EMPLOY
+
+docker image rm -f employ-server
+
+
+
+#	Running 2 Instances
+
+docker run -d -p8081:8080 --name=EMPLOY_1 employ-server
+docker run -d -p8082:8080 --name=EMPLOY_2 employ-server
