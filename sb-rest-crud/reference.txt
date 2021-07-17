@@ -1,0 +1,41 @@
+http://localhost:8080/SBRestCrudApplication/employ/
+{
+    "name": "Shobhit",
+    "designation": "Software Engineer",
+    "salary": 17000
+}
+
+
+Actuator -
+http://localhost:8082/actuator/
+http://localhost:8082/actuator/health
+http://localhost:8082/actuator/info
+
+
+
+---------------		Docker Reference	---------------
+
+export M2_HOME=$PATH:/Users/shobhitbhardwaj/ShobhiT/Softwares/apache-maven-3.6.3/
+export PATH=$PATH:/Users/shobhitbhardwaj/ShobhiT/Softwares/apache-maven-3.6.3/bin
+
+mvn clean install
+mvn package
+
+
+docker pull mysql:5.6
+docker run -p 3306:3306 --name mysql-standalone -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=test_db -e MYSQL_USER=sa -e MYSQL_PASSWORD=password -d mysql:5.6
+
+docker build --tag=employ-server .
+docker run -p8080:8080  --link mysql-standalone:mysql --name=EMPLOY employ-server
+
+docker start EMPLOY
+docker stop EMPLOY
+
+docker rm -f EMPLOY
+docker image rm -f employ-server
+
+
+#	Running 2 Instances
+
+docker run -d -p8081:8080 --name=EMPLOY_1 employ-server
+docker run -d -p8082:8080 --name=EMPLOY_2 employ-server
