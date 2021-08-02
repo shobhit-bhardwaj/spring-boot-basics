@@ -1,6 +1,8 @@
 package com.shobhit.service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,32 +20,33 @@ public class EmployServiceImpl implements IEmployService {
 	private IEmployDao employDao;
 
 	@Override
-	public Employ addEmploy(Employ employ) {
+	public Employ addResource(Employ employ) {
 		log.info("-- addEmploy Service --");
 
 		return employDao.save(employ);
 	}
 
 	@Override
-	public List<Employ> listEmploys() {
+	public List<Employ> listResources() {
 		log.info("-- listEmploys Service --");
 
 		return employDao.findAll();
 	}
 
 	@Override
-	public Employ getEmploy(int id) {
+	public Employ getResource(UUID id) {
 		log.info("-- getEmploy Service --");
 
 		return employDao.findById(id).orElse(null);
 	}
 
 	@Override
-	public Employ updateEmploy(int id, Employ employ) {
+	public Employ updateResource(UUID id, Employ employ) {
 		log.info("-- updateEmploy Service --");
 
-		Employ newEmploy = employDao.findById(id).orElse(null);
-		if(newEmploy != null) {
+		Optional<Employ> employOptional = employDao.findById(id);
+		if(employOptional.isPresent()) {
+			Employ newEmploy = employOptional.get();
 			newEmploy.setName(employ.getName());
 			newEmploy.setDesignation(employ.getDesignation());
 			newEmploy.setSalary(employ.getSalary());
@@ -55,7 +58,7 @@ public class EmployServiceImpl implements IEmployService {
 	}
 
 	@Override
-	public void deleteEmploy(int id) {
+	public void deleteResource(UUID id) {
 		log.info("-- deleteEmploy Service --");
 
 		employDao.deleteById(id);

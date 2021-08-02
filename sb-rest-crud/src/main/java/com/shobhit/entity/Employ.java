@@ -1,9 +1,14 @@
 package com.shobhit.entity;
 
+import java.util.UUID;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,21 +21,21 @@ import lombok.ToString;
 @Getter
 @Setter
 
+@Data
 @EqualsAndHashCode
 @ToString
 
-@Data
 @Entity
 @Table(name = "EMPLOY")
-public class Employ {
+public class Employ implements IGenericEntity<Employ> {
+	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue
-	private int id;
-
+	@Type (type = "uuid-char")
+	@GeneratedValue (generator = "uuid2")
+	@GenericGenerator (name = "uuid2", strategy = "uuid2")
+	private UUID id;
 	private String name;
-
 	private String designation;
-
 	private int salary;
 }

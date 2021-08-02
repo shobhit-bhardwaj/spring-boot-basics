@@ -1,12 +1,10 @@
 package com.shobhit.controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.shobhit.common.Response;
@@ -19,52 +17,51 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping (value = "/employ")
-public class EmployController {
+public class EmployController implements IGenericController<Employ> {
 
 	@Autowired
 	private IEmployService employService;
 
-	@RequestMapping (value = "/", method = RequestMethod.POST)
-	public Response<?> addEmploy(@RequestBody Employ employ) {
+	public Response<?> addResource(Employ employ) {
 		log.info("-- addEmploy -- " + employ);
 
-		employ = employService.addEmploy(employ);
+		employ = employService.addResource(employ);
 
 		return new Response<>(ResponseType.SUCCESS, employ);
 	}
 
-	@RequestMapping (value = "/", method = RequestMethod.GET)
-	public Response<?> listEmploys() {
+	public Response<?> listResources() {
 		log.info("-- listEmploys Controller --");
 
-		List<Employ> employs = employService.listEmploys();
+		List<Employ> employs = employService.listResources();
 
 		return new Response<>(ResponseType.SUCCESS, employs);
 	}
 
-	@RequestMapping (value = "/{id}", method = RequestMethod.GET)
-	public Response<?> getEmploy(@PathVariable int id) {
+	public Response<?> getResource(UUID id) {
 		log.info("-- getEmploy Controller -- " + id);
 
-		Employ employ = employService.getEmploy(id);
+		Employ employ = employService.getResource(id);
+		if(employ == null)
+			return new Response<>(ResponseType.RECORD_NOT_FOUND, employ);
 
 		return new Response<>(ResponseType.SUCCESS, employ);
 	}
 
-	@RequestMapping (value = "/{id}", method = RequestMethod.PUT)
-	public Response<?> updateEmploy(@PathVariable int id, @RequestBody Employ employ) {
+	public Response<?> updateResource(UUID id, Employ employ) {
 		log.info("-- updateEmploy -- " + employ);
 
-		employ = employService.updateEmploy(id, employ);
+		employ = employService.updateResource(id, employ);
+		if(employ == null)
+			return new Response<>(ResponseType.RECORD_NOT_FOUND, employ);
 
 		return new Response<>(ResponseType.SUCCESS, employ);
 	}
 
-	@RequestMapping (value = "/{id}", method = RequestMethod.DELETE)
-	public Response<?> deleteEmploy(@PathVariable int id) {
+	public Response<?> deleteResource(UUID id) {
 		log.info("-- deleteEmploy Controller -- " + id);
 
-		employService.deleteEmploy(id);
+		employService.deleteResource(id);
 
 		return new Response<>(ResponseType.SUCCESS);
 	}
