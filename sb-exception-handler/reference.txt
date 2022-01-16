@@ -1,0 +1,39 @@
+POST
+http://localhost:8080/SBExceptionHandlerApplication/user
+{
+    "id": 101,
+    "name": "Shobhit Bhardwaj",
+    "designation": "Software Designer",
+    "salary": 21000
+}
+
+GET
+http://localhost:8080/SBExceptionHandlerApplication/user
+http://localhost:8080/SBExceptionHandlerApplication/user/101
+
+DELETE
+http://localhost:8080/SBExceptionHandlerApplication/user/101
+
+
+
+InvalidIdException
+http://localhost:8080/SBExceptionHandlerApplication/user/0
+
+InvalidNameException
+http://localhost:8080/SBExceptionHandlerApplication/user
+{
+    "id": 101,
+    "name": "",
+    "designation": "Software Designer",
+    "salary": 21000
+}
+
+MethodNotAllowed
+POST
+http://localhost:8080/SBExceptionHandlerApplication/user/101
+{
+    "id": 101,
+    "name": "Shobhit Bhardwaj",
+    "designation": "Software Designer",
+    "salary": 21000
+}
