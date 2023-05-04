@@ -1,7 +1,6 @@
 package com.shobhit.service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.shobhit.dao.EmployDao;
 import com.shobhit.entity.Employ;
+import com.shobhit.exception.InvalidDataException;
 import com.shobhit.model.EmployRecord;
 import com.shobhit.util.Convertor;
 
@@ -47,39 +47,30 @@ public class EmployServiceImpl implements IEmployService {
 	public EmployRecord getResource(UUID id) {
 		log.info("-- getEmploy Service --");
 
-		Employ entity = employDao.findById(id).orElse(null);
+		Employ entity = employDao.findById(id).orElseThrow(() -> new InvalidDataException("Invalid UID - " + id));
 
-		EmployRecord employ = null;
-		if(entity != null) {
-			employ = Convertor.convert(entity);
-		}
-
-		return employ;
+		return Convertor.convert(entity);
 	}
 
 	@Override
 	public EmployRecord updateResource(UUID id, EmployRecord employ) {
 		log.info("-- updateEmploy Service --");
 
-		Optional<Employ> employOptional = employDao.findById(id);
-		if(employOptional.isPresent()) {
-			Employ newEmploy = employOptional.get();
-			newEmploy.setName(employ.name());
-			newEmploy.setDesignation(employ.designation());
-			newEmploy.setSalary(employ.salary());
+		Employ newEmploy = employDao.findById(id).orElseThrow(() -> new InvalidDataException("Invalid UID - " + id));
+		newEmploy.setName(employ.name());
+		newEmploy.setDesignation(employ.designation());
+		newEmploy.setSalary(employ.salary());
 
-			newEmploy = employDao.save(newEmploy);
+		newEmploy = employDao.save(newEmploy);
 
-			return Convertor.convert(newEmploy);
-		}
-
-		return null;
+		return Convertor.convert(newEmploy);
 	}
 
 	@Override
 	public void deleteResource(UUID id) {
 		log.info("-- deleteEmploy Service --");
 
-		employDao.deleteById(id);
+		Employ employ = employDao.findById(id).orElseThrow(() -> new InvalidDataException("Invalid UID - " + id));
+		employDao.delete(employ);
 	}
 }
