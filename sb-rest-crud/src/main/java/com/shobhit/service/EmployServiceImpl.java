@@ -7,8 +7,10 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.shobhit.dao.IEmployDao;
+import com.shobhit.dao.EmployDao;
 import com.shobhit.entity.Employ;
+import com.shobhit.model.EmployRecord;
+import com.shobhit.util.Convertor;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,41 +19,58 @@ import lombok.extern.slf4j.Slf4j;
 public class EmployServiceImpl implements IEmployService {
 
 	@Autowired
-	private IEmployDao employDao;
+	private EmployDao employDao;
 
 	@Override
-	public Employ addResource(Employ employ) {
+	public EmployRecord addResource(EmployRecord employ) {
 		log.info("-- addEmploy Service --");
 
-		return employDao.save(employ);
+		Employ entity = Convertor.convert(employ);
+		entity = employDao.save(entity);
+		employ = Convertor.convert(entity);
+
+		return employ;
 	}
 
 	@Override
-	public List<Employ> listResources() {
+	public List<EmployRecord> listResources() {
 		log.info("-- listEmploys Service --");
 
-		return employDao.findAll();
+		List<Employ> entities = employDao.findAll();
+
+		return entities.stream()
+				.map(Convertor :: convert)
+				.toList();
 	}
 
 	@Override
-	public Employ getResource(UUID id) {
+	public EmployRecord getResource(UUID id) {
 		log.info("-- getEmploy Service --");
 
-		return employDao.findById(id).orElse(null);
+		Employ entity = employDao.findById(id).orElse(null);
+
+		EmployRecord employ = null;
+		if(entity != null) {
+			employ = Convertor.convert(entity);
+		}
+
+		return employ;
 	}
 
 	@Override
-	public Employ updateResource(UUID id, Employ employ) {
+	public EmployRecord updateResource(UUID id, EmployRecord employ) {
 		log.info("-- updateEmploy Service --");
 
 		Optional<Employ> employOptional = employDao.findById(id);
 		if(employOptional.isPresent()) {
 			Employ newEmploy = employOptional.get();
-			newEmploy.setName(employ.getName());
-			newEmploy.setDesignation(employ.getDesignation());
-			newEmploy.setSalary(employ.getSalary());
+			newEmploy.setName(employ.name());
+			newEmploy.setDesignation(employ.designation());
+			newEmploy.setSalary(employ.salary());
 
-			return employDao.save(newEmploy);
+			newEmploy = employDao.save(newEmploy);
+
+			return Convertor.convert(newEmploy);
 		}
 
 		return null;

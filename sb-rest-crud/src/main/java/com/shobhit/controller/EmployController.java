@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.shobhit.common.Response;
 import com.shobhit.common.ResponseType;
 import com.shobhit.entity.Employ;
+import com.shobhit.model.EmployRecord;
 import com.shobhit.service.IEmployService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -17,12 +18,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping (value = "/employ")
-public class EmployController implements IGenericController<Employ> {
+public class EmployController implements IGenericController<EmployRecord> {
 
 	@Autowired
 	private IEmployService employService;
 
-	public Response<?> addResource(Employ employ) {
+	public Response<EmployRecord> addResource(EmployRecord employ) {
 		log.info("-- addEmploy -- " + employ);
 
 		employ = employService.addResource(employ);
@@ -30,25 +31,25 @@ public class EmployController implements IGenericController<Employ> {
 		return new Response<>(ResponseType.SUCCESS, employ);
 	}
 
-	public Response<?> listResources() {
+	public Response<List<EmployRecord>> listResources() {
 		log.info("-- listEmploys Controller --");
 
-		List<Employ> employs = employService.listResources();
+		List<EmployRecord> employs = employService.listResources();
 
 		return new Response<>(ResponseType.SUCCESS, employs);
 	}
 
-	public Response<?> getResource(UUID id) {
+	public Response<EmployRecord> getResource(UUID id) {
 		log.info("-- getEmploy Controller -- " + id);
 
-		Employ employ = employService.getResource(id);
+		EmployRecord employ = employService.getResource(id);
 		if(employ == null)
 			return new Response<>(ResponseType.RECORD_NOT_FOUND, employ);
 
 		return new Response<>(ResponseType.SUCCESS, employ);
 	}
 
-	public Response<?> updateResource(UUID id, Employ employ) {
+	public Response<EmployRecord> updateResource(UUID id, EmployRecord employ) {
 		log.info("-- updateEmploy -- " + employ);
 
 		employ = employService.updateResource(id, employ);
@@ -58,7 +59,7 @@ public class EmployController implements IGenericController<Employ> {
 		return new Response<>(ResponseType.SUCCESS, employ);
 	}
 
-	public Response<?> deleteResource(UUID id) {
+	public Response<EmployRecord> deleteResource(UUID id) {
 		log.info("-- deleteEmploy Controller -- " + id);
 
 		employService.deleteResource(id);

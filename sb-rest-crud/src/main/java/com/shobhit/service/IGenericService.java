@@ -3,9 +3,7 @@ package com.shobhit.service;
 import java.util.List;
 import java.util.UUID;
 
-import com.shobhit.entity.IGenericEntity;
-
-public interface IGenericService<T extends IGenericEntity<T>> {
+public interface IGenericService<T> {
 	public T addResource(T t);
 
 	public List<T> listResources();

@@ -1,29 +1,31 @@
 package com.shobhit.controller;
 
+import java.util.List;
 import java.util.UUID;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.shobhit.common.Response;
-import com.shobhit.entity.IGenericEntity;
 
-public interface IGenericController<T extends IGenericEntity<T>> {
+public interface IGenericController<T> {
 
-	@RequestMapping (value = "", method = RequestMethod.POST)
-	public Response<?> addResource(@RequestBody T t);
+	@PostMapping
+	public Response<T> addResource(@RequestBody T t);
 
-	@RequestMapping (value = "", method = RequestMethod.GET)
-	public Response<?> listResources();
+	@GetMapping
+	public Response<List<T>> listResources();
 
-	@RequestMapping (value = "/{id}", method = RequestMethod.GET)
-	public Response<?> getResource(@PathVariable UUID id);
+	@GetMapping (value = "/{id}")
+	public Response<T> getResource(@PathVariable UUID id);
 
-	@RequestMapping (value = "/{id}", method = RequestMethod.PUT)
-	public Response<?> updateResource(@PathVariable UUID id, @RequestBody T t);
+	@PutMapping (value = "/{id}")
+	public Response<T> updateResource(@PathVariable UUID id, @RequestBody T t);
 
-	@RequestMapping (value = "/{id}", method = RequestMethod.DELETE)
-	public Response<?> deleteResource(@PathVariable UUID id);
+	@DeleteMapping (value = "/{id}")
+	public Response<T> deleteResource(@PathVariable UUID id);
 }

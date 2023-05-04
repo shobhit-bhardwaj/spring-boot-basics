@@ -1,6 +1,6 @@
 package com.shobhit.service;
 
-import com.shobhit.entity.Employ;
+import com.shobhit.model.EmployRecord;
 
-public interface IEmployService extends IGenericService<Employ> {
+public interface IEmployService extends IGenericService<EmployRecord> {
 }

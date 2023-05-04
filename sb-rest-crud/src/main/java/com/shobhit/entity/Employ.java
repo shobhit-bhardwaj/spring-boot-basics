@@ -2,38 +2,26 @@ package com.shobhit.entity;
 
 import java.util.UUID;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.hibernate.annotations.UuidGenerator;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
-
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-
-@RequiredArgsConstructor
-@Getter
-@Setter
+import lombok.NoArgsConstructor;
 
 @Data
-@EqualsAndHashCode
-@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 
 @Entity
 @Table(name = "EMPLOY")
-public class Employ implements IGenericEntity<Employ> {
-	private static final long serialVersionUID = 1L;
-
+public class Employ {
 	@Id
-	@Type (type = "uuid-char")
-	@GeneratedValue (generator = "uuid2")
-	@GenericGenerator (name = "uuid2", strategy = "uuid2")
+	@GeneratedValue
+	@UuidGenerator
 	private UUID id;
 	private String name;
 	private String designation;
