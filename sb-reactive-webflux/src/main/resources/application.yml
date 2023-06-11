@@ -1,0 +1,19 @@
+server:
+  port: 8080
+
+spring:
+  webflux:
+    base-path: /SBReactiveApplication
+  application:
+    name: sb-reactive-webflux-application
+  profiles:
+    active: dev
+
+logging:
+  level:
+    org.springframework: INFO
+    com.shobhit.reactive: DEBUG
+  file.name: /Users/shobhitbhardwaj/WorkSpace/JavaWorkSpace/app-logs/sb-reactive-webflux.log
+  pattern:
+    console: "%d{yyyy-MMM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MMM-dd HH:mm:ss} - %msg%n"
