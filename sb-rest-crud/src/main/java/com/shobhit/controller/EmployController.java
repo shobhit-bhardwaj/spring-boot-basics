@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.shobhit.common.Response;
 import com.shobhit.common.ResponseType;
-import com.shobhit.entity.Employ;
 import com.shobhit.model.EmployRecord;
 import com.shobhit.service.IEmployService;
 
