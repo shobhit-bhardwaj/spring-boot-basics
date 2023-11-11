@@ -1,0 +1,59 @@
+http://localhost:8080/
+
+Actuator -
+http://localhost:8082/actuator/
+http://localhost:8082/actuator/health
+http://localhost:8082/actuator/info
+
+
+
+---------------		Docker		---------------
+
+export M2_HOME=$PATH:/Users/shobhitbhardwaj/ShobhiT/Softwares/apache-maven-3.6.3/
+export PATH=$PATH:/Users/shobhitbhardwaj/ShobhiT/Softwares/apache-maven-3.6.3/bin
+
+mvn clean install
+
+
+docker build --tag=sb-k8s .
+docker run -d -p8080:8080 --name SB-K8S-HELLO sb-k8s
+
+docker start SB-K8S-HELLO
+docker stop SB-K8S-HELLO
+
+docker rm -f SB-K8S-HELLO
+docker image rm -f sb-k8s
+
+
+
+docker tag sb-k8s shobhitbhardwaj/sb-k8s:latest
+docker push shobhitbhardwaj/sb-k8s:latest
+docker pull shobhitbhardwaj/sb-k8s:latest
+
+
+---------------		Kubernetes		---------------
+
+minikube version
+minikube start --driver=docker
+--minikube stop
+--minikube delete
+--minikube status
+minikube dashboard
+
+
+kubectl apply -f deployment.yml
+kubectl apply -f service.yml
+
+minikube service sb-k8s-service --url
+
+
+kubectl get deployment
+kubectl get service
+kubectl get pod
+
+kubectl logs <POD_NAME>
+
+
+kubectl delete service sb-k8s-service
+kubectl delete deployment sb-k8s-deployment
+

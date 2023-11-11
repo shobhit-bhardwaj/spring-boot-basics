@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sb-k8s-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: sb-k8s
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP

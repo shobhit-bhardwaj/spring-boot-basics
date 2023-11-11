@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sb-k8s-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: sb-k8s
+  template:
+    metadata:
+      labels:
+        app: sb-k8s
+    spec:
+      containers:
+      - name: sb-k8s
+        image: shobhitbhardwaj/sb-k8s:latest
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
