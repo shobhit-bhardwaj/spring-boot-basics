@@ -1,5 +1,12 @@
-export PATH=$PATH:/usr/local/mysql/bin/
-mysql -uroot -proot
+#export PATH=$PATH:/usr/local/mysql/bin/
+#mysql -uroot -proot
+
+brew services start mysql
+brew services stop mysql
+mysql.server start
+mysql.server stop
+mysql -u root -p
+
 
 drop database test_db;
 create database test_db;
